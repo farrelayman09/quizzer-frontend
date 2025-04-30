@@ -1,21 +1,9 @@
 <template>
     <v-app id="inspire">
-        <v-navigation-drawer :width="270" v-model="drawer" app>
-            <v-list-item class="my-2" title="Guest" subtitle="Login to submit and create tryouts!"></v-list-item>
+        <GuestNavigationDrawer />
 
-            <v-list-item router-link to="/login" prepend-icon="mdi-login" title="Login"></v-list-item>
 
-        </v-navigation-drawer>
-
-        <v-app-bar>
-            <v-app-bar-nav-icon @click="drawer = !drawer"/>
-            <v-app-bar-title>
-                <router-link to="/" style="text-decoration: none; color: inherit;">
-                    QuizApp
-                </router-link>
-            </v-app-bar-title>
-        </v-app-bar>
-
+        <AppBar/>
 
         <v-main>
             <!-- <router-view></router-view> -->
@@ -77,6 +65,15 @@
                 </v-row>
 
                 <v-row dense>
+                    <v-col cols="12" v-if="filteredTryouts.length === 0">
+                        <v-card class="text-center pa-8" color="#385F73">
+                        <v-card-subtitle class="text-h6 white--text"> No tryouts are ready yet. Create one and add questions to make it available.
+                        </v-card-subtitle>
+                        <v-card-actions class="justify-center">
+                            <v-btn variant="tonal" router-link to="/login" text="Create Tryout"></v-btn>
+                        </v-card-actions>
+                        </v-card>
+                    </v-col>
                     <v-col cols="12" v-for="tryout in filteredTryouts" :key="tryout.id">
                         <v-card color="#385F73" class="pb-4">
                             <v-card-title class="text-h5">{{ tryout.title }}</v-card-title>
@@ -102,6 +99,9 @@ import axios from "axios";
 import { useRouter } from "vue-router";
 import api from "../router/api";
 import { computed } from "vue";
+import AppBar from '../components/AppBar.vue'; // Adjust path as needed
+import GuestNavigationDrawer from "../components/GuestNavigationDrawer.vue";
+
 
 
 const drawer = ref(null);

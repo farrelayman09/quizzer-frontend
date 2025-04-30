@@ -19,7 +19,6 @@ const logout = async () => {
     );
     console.log("Logout response:", response.data);
     localStorage.removeItem('accessToken');
-    // proxy.updateAuthState(); 
     router.push("/guest");
   } catch (error) {
     console.error("Logout failed:", error);
@@ -30,10 +29,7 @@ const logout = async () => {
 
 <template>
     <v-navigation-drawer :width="270" v-model="drawerStore.drawer" app>
-        <v-list-item class="my-2" :title="`Welcome, ${loggedInUser}`" subtitle="Submit and create tryouts!"></v-list-item>
-        <v-list-item router-link to="/" prepend-icon="mdi-home" title="Home"></v-list-item>
-        <v-list-item router-link to="/my-tryouts" prepend-icon="mdi-pencil" title="My Tryouts"></v-list-item>
-        <v-list-item router-link to="/my-submissions" prepend-icon="mdi-check" title="My Submissions"></v-list-item>
-        <v-list-item @click="logout" prepend-icon="mdi-logout" title="Logout"></v-list-item>
+        <v-list-item class="my-2" title="Guest" subtitle="Login to submit and create tryouts!"></v-list-item>
+        <v-list-item router-link to="/login" prepend-icon="mdi-login" title="Login"></v-list-item>
     </v-navigation-drawer>
 </template>
