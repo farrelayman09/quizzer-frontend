@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Guest from '../pages/Guest.vue'
 import Login from '../pages/Login.vue'
-import Dashboard from '../pages/Dashboard.vue'
 import MyTryouts from '@/pages/MyTryouts.vue'
 import MyQuestions from '@/pages/MyQuestions.vue'
 import DoTryout from '@/pages/DoTryout.vue'
@@ -99,34 +98,29 @@ async function refreshToken() {
       { withCredentials: true }
     );
 
-    // ✅ Store new token in localStorage
     localStorage.setItem("accessToken", data.accessToken);
 
-    // ✅ Update Axios headers
     api.defaults.headers.common["Authorization"] = `Bearer ${data.accessToken}`;
 
     console.log("🔄 Token refreshed:", data.accessToken);
   } catch (error) {
     console.error("❌ Refresh token failed, logging out...", error);
     localStorage.removeItem("accessToken");
-    // ✅ Pakai window.location.replace agar redirect ke login
     window.location.replace("/login");
     return false; // Gagal refresh token  
   }
 }
 
-// ✅ Restore session on page load
 async function restoreSession() {
   const token = localStorage.getItem("accessToken");
   if (!token) return; // No token, no need to refresh
 
   await refreshToken(); // Refresh token immediately on load
 
-  // ✅ Auto-refresh every 14 minutes (14 * 60 * 1000 ms)
   setInterval(refreshToken, 14 * 60 * 1000);
 }
 
-restoreSession(); // 🔥 Call this when the app loads
+restoreSession(); // 
 
 
 router.beforeEach(async (to, from, next) => {
@@ -155,7 +149,7 @@ router.beforeEach(async (to, from, next) => {
     }
 
     next();
-  } // 🚫 Cegah user yang sudah login mengakses `/guest`
+  } 
   if (['/guest', '/login', '/register'].includes(to.path) && accessToken && !isTokenExpired(accessToken)) {
     return next('/home');
   }

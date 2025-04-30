@@ -2,15 +2,7 @@
   <v-app id="inspire">
     <NavigationDrawer />
 
-    <v-app-bar>
-      <v-app-bar-nav-icon @click="drawerStore.drawer = !drawerStore.drawer"/>
-      <v-app-bar-title>
-        <router-link to="/" style="text-decoration: none; color: inherit;">
-          QuizApp
-        </router-link>
-      </v-app-bar-title>
-    </v-app-bar>
-
+    <AppBar/>
 
     <v-main>
       <!-- <router-view></router-view> -->
@@ -90,7 +82,7 @@
 
 
                       <!-- Choices List -->
-                      <v-row v-for="(choice, index) in newMCQuestion.choices" :key="index" align="center">
+                      <v-row v-for="(choice, index) in newMCQuestion.choices" :key="index" >
                         <v-col cols="8">
                           <v-text-field v-model="newMCQuestion.choices[index]" :label="'Choice ' + (index + 1)"
                             required>
@@ -216,6 +208,8 @@ import api from "../router/api";
 import { getCurrentInstance } from "vue";
 import NavigationDrawer from "../components/NavigationDrawer.vue"
 import { useDrawerStore } from "../stores/useDrawerStore";
+import AppBar from '../components/AppBar.vue'; // Adjust path as needed
+
 
 const drawerStore = useDrawerStore();
 
@@ -277,7 +271,10 @@ const createMCQuestion = async () => {
     alert("At least 2 choices are required!");
     return;
   }
-  if (!newMCQuestion.value.correct_answer) {
+  
+  if (newMCQuestion.value.correct_answer === null || newMCQuestion.value.correct_answer === undefined 
+    || newMCQuestion.value.correct_answer === "") {
+    console.log(newMCQuestion.value.correct_answer);
     alert("Select a correct answer!");
     return;
   }

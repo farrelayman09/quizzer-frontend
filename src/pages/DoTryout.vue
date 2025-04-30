@@ -1,15 +1,7 @@
 <template>
   <v-app id="inspire">
 
-
-    <v-app-bar>
-      <v-app-bar-title>
-        <router-link to="/" style="text-decoration: none; color: inherit;">
-          QuizApp
-        </router-link>
-      </v-app-bar-title>
-    </v-app-bar>
-
+    <AppBar/>
 
     <v-main>
       <!-- <router-view></router-view> -->
@@ -98,7 +90,13 @@ onMounted(async () => {
   try {
     loggedInUser.value = localStorage.getItem("username") || "Guest";
     loggedInId.value = localStorage.getItem("id")
-    const response = await api.get(`tryout/${route.params.id}/auth-questions`)
+    const response = await api.get(`tryout/${route.params.id}/auth-questions`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
     questions.value = response.data;
     // Initialize selectedAnswers with reactive properties for each question
     questions.value.forEach(question => {

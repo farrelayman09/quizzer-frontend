@@ -2,16 +2,7 @@
   <v-app id="inspire">
     <NavigationDrawer />
 
-
-      <v-app-bar>
-        <v-app-bar-nav-icon @click="drawerStore.drawer = !drawerStore.drawer"/>
-        <v-app-bar-title>
-          <router-link to="/" style="text-decoration: none; color: inherit;">
-            QuizApp
-          </router-link>
-        </v-app-bar-title>
-      </v-app-bar>
-
+    <AppBar/>
 
     <v-main>
       <!-- <router-view></router-view> -->
@@ -57,7 +48,16 @@
 
         <v-row dense>
 
-
+          <!-- Display message when no tryouts are available -->
+          <v-col cols="12" v-if="filteredTryouts.length === 0">
+            <v-card class="text-center pa-8" color="#385F73">
+              <v-card-subtitle class="text-h6 white--text"> No tryouts are ready yet. Create one and add questions to make it available.
+              </v-card-subtitle>
+              <v-card-actions class="justify-center">
+                <v-btn variant="tonal" router-link to="/my-tryouts" text="Create Tryout"></v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-col>
           <v-col cols="12" v-for="tryout in filteredTryouts" :key="tryout.id">
             <v-card color="#385F73">
               <v-card-title class="text-h5">{{ tryout.title }}</v-card-title>
@@ -95,6 +95,8 @@ const loggedInId = ref(null);
 const { proxy } = getCurrentInstance();
 import { useDrawerStore } from "../stores/useDrawerStore";
 import NavigationDrawer from "../components/NavigationDrawer";
+import AppBar from '../components/AppBar.vue'; // Adjust path as needed
+
 
 const drawerStore = useDrawerStore();
 
@@ -112,7 +114,6 @@ onMounted(async () => {
   }
 });
 
-// Computed Property untuk filter daftar tryouts berdasarkan search
 // Computed Property untuk filter daftar tryouts berdasarkan search
 const filteredTryouts = computed(() => {
   return tryouts.value.filter((tryout) => {

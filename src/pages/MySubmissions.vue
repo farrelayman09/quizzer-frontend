@@ -2,20 +2,22 @@
   <v-app id="inspire">
     <NavigationDrawer />
 
-    <v-app-bar>
-      <v-app-bar-nav-icon @click="drawerStore.drawer = !drawerStore.drawer"/>
-      <v-app-bar-title>
-        <router-link to="/" style="text-decoration: none; color: inherit;">
-          QuizApp
-        </router-link>
-      </v-app-bar-title>
-    </v-app-bar>
-
+    <AppBar/>
 
     <v-main>
       <!-- <router-view></router-view> -->
       <v-container class="pa-8">
         <v-row dense>
+          <v-col cols="12" v-if="submissions.length === 0">
+            <v-card class="text-center pa-8" color="#385F73">
+              <v-card-subtitle class="text-h6 white--text"> No completed tryouts yet. Ready to take your first one?
+
+              </v-card-subtitle>
+              <v-card-actions class="justify-center">
+                <v-btn variant="tonal" router-link to="/home" text="Take Tryout"></v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-col>
           <v-col cols="12" v-for="submission in submissions" :key="submission.id">
             <v-card color="#385F73">
               <v-card-title class="text-h5">{{ submission.tryout_title }}</v-card-title>
@@ -82,6 +84,8 @@ import { getCurrentInstance } from "vue";
 import { shallowRef } from 'vue'
 import NavigationDrawer from "../components/NavigationDrawer.vue";
 import { useDrawerStore } from "../stores/useDrawerStore";
+import AppBar from '../components/AppBar.vue'; // Adjust path as needed
+
 
 const drawerStore = useDrawerStore();
 

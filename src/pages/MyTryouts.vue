@@ -2,16 +2,7 @@
   <v-app id="inspire">
     <NavigationDrawer />
 
-    <v-app-bar>
-      <v-app-bar-nav-icon @click="drawerStore.drawer = !drawerStore.drawer"/>
-      <v-app-bar-title>
-        <router-link to="/" style="text-decoration: none; color: inherit;">
-          QuizApp
-        </router-link>
-      </v-app-bar-title>
-    </v-app-bar>
-
-
+    <AppBar/>
 
     <v-main>
       <!-- <router-view></router-view> -->
@@ -113,6 +104,8 @@ import { getCurrentInstance } from "vue";
 import { shallowRef } from 'vue'
 import NavigationDrawer from "../components/NavigationDrawer.vue";
 import { useDrawerStore } from "../stores/useDrawerStore";
+import AppBar from '../components/AppBar.vue'; // Adjust path as needed
+
 
 const drawerStore = useDrawerStore();
 
